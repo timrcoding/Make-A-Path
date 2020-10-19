@@ -11,7 +11,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool moveComplete;
     void Start()
     {
-       // newTargetForPlayer();
+
     }
 
     // Update is called once per frame
@@ -25,20 +25,54 @@ public class PlayerBehaviour : MonoBehaviour
         newTargetForPlayer();
         if (move)
         {
-            transform.position = Vector3.Lerp(transform.position, newTarget.transform.position, 0.05f);
-            if(Vector2.Distance(transform.position,newTarget.transform.position) <= 0.05f)
+            if (GameManager.instance.pathToFinish())
             {
-                transform.position = newTarget.transform.position;
-                
-                newTargetForPlayer();
+                transform.position = Vector3.Lerp(transform.position, newTarget.transform.position, 0.2f);
+                if (Vector2.Distance(transform.position, newTarget.transform.position) <= 0.05f)
+                {
+                    transform.position = newTarget.transform.position;
+                    incrementTarget();
+                    newTargetForPlayer();
+                }
             }
+            else
+            {
+                Debug.Log("NO PATH TO FINISH");
+                GameManager.instance.resetRound();
+                move = false;
+            }
+            
         }
+        
     }
 
     public void newTargetForPlayer()
     {
-        
-        newTarget = GameManager.instance.movementNodes[targetCount];
+            newTarget = GameManager.instance.movementNodes[targetCount];
     }
+
+    public void incrementTarget()
+    {
+        if (targetCount < GameManager.instance.movementNodes.Count-1)
+        {
+            targetCount++;
+        }
+        else if (checkForFinish())
+        {
+            Debug.Log("LEVEL COMPLETED");
+        }
+        
+    }
+
+    public bool checkForFinish()
+    {
+        if (targetCount >= GameManager.instance.movementNodes.Count - 1)
+        {
+            return true;
+        }
+        else { return false; }
+    }
+
+    
 }
 
