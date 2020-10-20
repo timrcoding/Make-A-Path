@@ -10,7 +10,7 @@ public class TileArrows : MonoBehaviour
     [SerializeField]
     public bool tileIsObstacle;
     [SerializeField]
-    private bool cannotBeObstacle;
+    public bool cannotBeObstacle;
     [SerializeField]
     private Sprite imageSprite;
     public bool tileSet;
