@@ -19,8 +19,13 @@ public class GameManager : MonoBehaviour
     public List<GameObject> movementNodes;
     public int nodeCount;
 
-    public int obstacleLikelihood;
-    
+
+
+    [SerializeField]
+    private GameObject transitionOut;
+    [SerializeField]
+    private GameObject transitionIn;
+
     //SHOWS WHICH TILE WAS PREVIOUSLY SELECTED
 
     void Start()
@@ -29,6 +34,10 @@ public class GameManager : MonoBehaviour
         tilesCanBeSet = true;
         StartCoroutine(startRound());
 
+        transitionIn.SetActive(true);
+        transitionOut.SetActive(false);
+
+        LevelManager.instance.setLevelDifficulty();
     }
 
     private void Update()
@@ -44,6 +53,11 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<PlayerBehaviour>().move = true;
 
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            AsyncLoad.instance.switchChangeLevel();
         }
     }
 
@@ -103,7 +117,7 @@ public class GameManager : MonoBehaviour
 
     public void resetRound()
     {
-        Debug.Log("ROUND RESET");
+        
         playStarted = false;
         tilesCanBeSet = true;
         player.GetComponent<PlayerBehaviour>().move = false;
@@ -115,6 +129,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator startRound()
     {
+        yield return new WaitForSeconds(1);
         for(int i = 3; i > 0; i--)
         {
             
@@ -130,5 +145,10 @@ public class GameManager : MonoBehaviour
     {
         Counter.instance.startTimer = false;
         AudioManager.instance.playClip("Cymbal",0.5f);
+        transitionOut.SetActive(true);
+        float time = Counter.instance.timer;
+        float rounded = Mathf.Round(time * 10) / 10;
+        LevelManager.instance.setLevelScore(rounded);
+
     }
 }

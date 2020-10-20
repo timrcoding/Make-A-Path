@@ -8,9 +8,11 @@ public class Counter : MonoBehaviour
     public static Counter instance;
 
     [SerializeField]
-    private float timer;
+    public float timer;
     [SerializeField]
     public bool startTimer;
+    [SerializeField]
+    public TextMeshProUGUI levelCounterText;
 
     [SerializeField]
     private TextMeshProUGUI timerText;
@@ -18,6 +20,7 @@ public class Counter : MonoBehaviour
     void Start()
     {
         instance = this;
+        levelCounterText.text = "Level 1." + LevelManager.instance.level.ToString();
     }
 
     // Update is called once per frame

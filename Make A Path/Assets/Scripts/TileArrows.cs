@@ -38,7 +38,7 @@ public class TileArrows : MonoBehaviour
     IEnumerator setAsObstacle()
     {
         yield return new WaitForEndOfFrame();
-        int num = (int) Random.Range(0,GameManager.instance.obstacleLikelihood);
+        int num = (int) Random.Range(0,LevelManager.instance.levelDifficulty);
 
         if(num == 1 && !cannotBeObstacle) { tileIsObstacle = true; }
 
