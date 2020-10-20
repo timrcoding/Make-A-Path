@@ -119,13 +119,16 @@ public class GameManager : MonoBehaviour
         {
             
             Counter.instance.setText(i);
+            AudioManager.instance.playClip("Beep",1);
             yield return new WaitForSeconds(1);
         }
         Counter.instance.startTimer = true;
+        AudioManager.instance.startTheme();
     }
 
     public void roundFinished()
     {
         Counter.instance.startTimer = false;
+        AudioManager.instance.playClip("Cymbal",0.5f);
     }
 }
