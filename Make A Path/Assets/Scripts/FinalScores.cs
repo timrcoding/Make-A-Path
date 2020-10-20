@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class FinalScores : MonoBehaviour
 {
@@ -17,7 +18,9 @@ public class FinalScores : MonoBehaviour
         scores.text = "";
         for(int i = 0; i < LevelManager.instance.levelScore.Length; i++)
         {
-            scores.text += "1." + i.ToString() + ": " + LevelManager.instance.levelScore[i].ToString() + '\n';
+            scores.text += "1." + i.ToString() + ": " + LevelManager.instance.levelScore[i].ToString() + '\n' + '\n';
         }
+
+        scores.text += "Total: " + LevelManager.instance.levelScore.Sum();
     }
 }

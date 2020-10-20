@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
     public int level;
+    public int[] difficulties;
     public int levelDifficulty;
     public int levelCap;
     public float[] levelScore;
@@ -40,11 +41,13 @@ public class LevelManager : MonoBehaviour
 
     public void setLevelDifficulty()
     {
-        levelDifficulty = 7 - level;
-        if(levelDifficulty <= levelCap)
+
+        
+        if(level >= levelScore.Length)
         {
             SceneManager.LoadScene("Outro");
         }
+        levelDifficulty = difficulties[level];
     }
 
     

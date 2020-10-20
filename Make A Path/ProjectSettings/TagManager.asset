@@ -7,6 +7,7 @@ TagManager:
   - Tile
   - Obstacle
   - Setter
+  - Singletons
   layers:
   - Default
   - TransparentFX
