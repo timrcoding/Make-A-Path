@@ -38,8 +38,10 @@ public class PlayerBehaviour : MonoBehaviour
             else
             {
                 Debug.Log("NO PATH TO FINISH");
-                GameManager.instance.resetRound();
                 move = false;
+                
+                GameManager.instance.resetRound();
+                targetCount = 0;
             }
             
         }

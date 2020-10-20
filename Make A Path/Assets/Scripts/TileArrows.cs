@@ -10,28 +10,48 @@ public class TileArrows : MonoBehaviour
     [SerializeField]
     public bool tileIsObstacle;
     [SerializeField]
+    private bool cannotBeObstacle;
+    [SerializeField]
     private Sprite imageSprite;
     public bool tileSet;
     public int direction;
 
     [SerializeField]
     private GameObject placementTiles;
+    [SerializeField]
+    private LayerMask layer;
 
     [SerializeField]
     private GameObject playerObject;
 
     void Start()
     {
-        setAsObstacle();
+
+        StartCoroutine(setAsObstacle());
     }
 
-    void setAsObstacle()
+    private void Update()
     {
+
+    }
+
+    IEnumerator setAsObstacle()
+    {
+        yield return new WaitForEndOfFrame();
+        int num = (int) Random.Range(0,GameManager.instance.obstacleLikelihood);
+
+        if(num == 1 && !cannotBeObstacle) { tileIsObstacle = true; }
+
         if (tileIsObstacle)
         {
             tag = "Obstacle";
+            gameObject.layer = 8;
             GetComponent<Image>().color = Color.black;
             buttonCannotBeSet = true;
+        }
+        else
+        {
+            setStartViability();
         }
     }
 
@@ -90,6 +110,8 @@ public class TileArrows : MonoBehaviour
         {
             Image tileImage = g.GetComponent<Image>();
             bool tileObstacle = g.GetComponent<TileArrows>().tileIsObstacle;
+
+            
             //CLEAR COLOURS BEFORE SETTING
             if (!tileObstacle)
             {
@@ -99,12 +121,11 @@ public class TileArrows : MonoBehaviour
             {
                 tileImage.color = Color.black;
             }
-            //CHECK OBSTACLES BY COLOR
-            
-            
+           
+            //RIGHT
             if (i == 1)
             {
-                if (g.transform.position.y == transform.position.y && g.transform.position.x < transform.position.x)
+                if (g.transform.position.y == transform.position.y && g.transform.position.x >= transform.position.x)
                 {
                     tileImage.color = Color.yellow;
                     g.GetComponent<TileArrows>().buttonCannotBeSet = false;
@@ -114,9 +135,37 @@ public class TileArrows : MonoBehaviour
                     g.GetComponent<TileArrows>().buttonCannotBeSet = true;
                 }
             }
-            else
+            //LEFT
+            else if (i == 3)
             {
-                if (g.transform.position.x == transform.position.x )
+                if (g.transform.position.y == transform.position.y && g.transform.position.x <= transform.position.x)
+                {
+                    tileImage.color = Color.yellow;
+                    g.GetComponent<TileArrows>().buttonCannotBeSet = false;
+                }
+                else
+                {
+                    g.GetComponent<TileArrows>().buttonCannotBeSet = true;
+                }
+            }
+
+            //UP
+            else if (i == 0)
+            {
+                if (g.transform.position.x == transform.position.x && g.transform.position.y >= transform.position.y)
+                {
+                    tileImage.color = Color.yellow;
+                    g.GetComponent<TileArrows>().buttonCannotBeSet = false;
+                }
+                else
+                {
+                    g.GetComponent<TileArrows>().buttonCannotBeSet = true;
+                }
+            }
+            //DOWN
+            else if (i == 2)
+            {
+                if (g.transform.position.x == transform.position.x && g.transform.position.y <= transform.position.y)
                 {
                     tileImage.color = Color.yellow;
                     g.GetComponent<TileArrows>().buttonCannotBeSet = false;
@@ -129,19 +178,8 @@ public class TileArrows : MonoBehaviour
         }
     }
 
-    public void closestVObstacle(GameObject tile, GameObject[] obstacles)
-    {
-        List<Transform> obstaclesOnSameYAxis = new List<Transform>();
-
-        for(int i = 0; i < obstacles.Length; i++) 
-        {
-            if(obstacles[i].transform.position.y == tile.transform.position.y)
-            {
-                obstaclesOnSameYAxis.Add(obstacles[i].transform);
-            }
-        }
-
-    }
+ 
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -153,7 +191,26 @@ public class TileArrows : MonoBehaviour
                 Debug.Log("P1 DESTROYED");
             }
         }
+        
     }
+
+    void setStartViability()
+    {
+        float gty = GameManager.instance.startTile.transform.position.y;
+        float gtx = GameManager.instance.startTile.transform.position.x;
+
+        if (  gty == transform.position.y  || gtx == transform.position.x )
+        {
+            GetComponent<Image>().color = Color.yellow;
+            buttonCannotBeSet = false;
+        }
+        else
+        {
+            buttonCannotBeSet = true;
+        }
+    }
+
+
 
 }
 
