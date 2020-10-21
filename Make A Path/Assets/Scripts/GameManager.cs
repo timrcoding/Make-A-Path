@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
             setTile();
             if (Input.GetKeyDown(KeyCode.E) && !playStarted)
             {
+                AudioManager.instance.playClip("Servo", 1);
                 playStarted = true;
                 tilesCanBeSet = false;
                 movementNodes.Add(finishTile);

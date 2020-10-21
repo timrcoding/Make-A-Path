@@ -28,8 +28,10 @@ public class PlayerBehaviour : MonoBehaviour
             if (GameManager.instance.pathToFinish())
             {
                 transform.position = Vector3.Lerp(transform.position, newTarget.transform.position, 0.2f);
+                
                 if (Vector2.Distance(transform.position, newTarget.transform.position) <= 0.05f)
                 {
+                    
                     transform.position = newTarget.transform.position;
                     incrementTarget();
                     newTargetForPlayer();
@@ -37,7 +39,6 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else
             {
-                Debug.Log("NO PATH TO FINISH");
                 move = false;
                 
                 GameManager.instance.resetRound();
@@ -51,6 +52,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void newTargetForPlayer()
     {
             newTarget = GameManager.instance.movementNodes[targetCount];
+        
     }
 
     public void incrementTarget()
@@ -58,6 +60,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (targetCount < GameManager.instance.movementNodes.Count-1)
         {
             targetCount++;
+            AudioManager.instance.playClip("Servo", 1);
         }
         else if (checkForFinish())
         {
