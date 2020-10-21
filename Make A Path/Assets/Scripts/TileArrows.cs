@@ -72,6 +72,7 @@ public class TileArrows : MonoBehaviour
     {
         direction = 0;
         detectPossiblePlacements(direction);
+        AudioManager.instance.playClip("Drill",1);
         GetComponent<Image>().sprite = GameManager.instance.arrows[0];
         tileSet = true;
         
@@ -80,6 +81,7 @@ public class TileArrows : MonoBehaviour
     {
         direction = 1;
         detectPossiblePlacements(direction);
+        AudioManager.instance.playClip("Drill", 1);
         GetComponent<Image>().sprite = GameManager.instance.arrows[1];
         tileSet = true;
         
@@ -88,6 +90,7 @@ public class TileArrows : MonoBehaviour
     {
         direction = 2;
         detectPossiblePlacements(direction);
+        AudioManager.instance.playClip("Drill", 1);
         GetComponent<Image>().sprite = GameManager.instance.arrows[2];
         tileSet = true;
         
@@ -96,6 +99,7 @@ public class TileArrows : MonoBehaviour
     {
         direction = 3;
         detectPossiblePlacements(direction);
+        AudioManager.instance.playClip("Drill", 1);
         GetComponent<Image>().sprite = GameManager.instance.arrows[3];
         tileSet = true;
         
